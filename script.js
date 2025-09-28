@@ -487,7 +487,7 @@ contactForm.addEventListener("submit", async (e) => {
   const message = document.getElementById("message").value;
 
   try {
-    const response = await fetch("https://portfolio.onrender.com/send", {
+    const response = await fetch("https://portfolio-zgun.onrender.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, message: `${subject}\n\n${message}` }),
@@ -504,6 +504,7 @@ contactForm.addEventListener("submit", async (e) => {
     showStatus("⚠️ Can't connect to server.", "red", 7000);
   }
 });
+
 
 
 
