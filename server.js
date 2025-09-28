@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // Configure SendGrid
-sgMail.setApiKey(process.env.SENDGRID_API);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 app.post("/send", async (req, res) => {
   const { name, email, message } = req.body;
@@ -40,3 +40,4 @@ app.post("/send", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
