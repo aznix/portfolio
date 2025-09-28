@@ -429,7 +429,7 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
   const status = document.getElementById("status");
 
   try {
-    const response = await fetch("http://localhost:3000/send", {
+    const response = await fetch("https://portfolio.onrender.com/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, message: `${subject}\n\n${message}` }),
@@ -471,3 +471,4 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
 <script src="server.js"></script>
 </body>
 </html>
+
