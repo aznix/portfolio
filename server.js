@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -9,46 +10,33 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Configure SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API);
 
-// Nodemailer configuratie
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.GMAIL_USER,       // Gmail
-    pass: process.env.GMAIL_PASS           // 16-cijferig App Password
-  },
-});
+app.post("/send", async (req, res) => {
+  const { name, email, message } = req.body;
 
-transporter.verify((error, success) => {
-  if (error) console.log("SMTP fout:", error);
-  else console.log("SMTP server is ready ✅");
-});
-
-app.post("/send", (req, res) => {
-  const { name, email, message } = req.body; // haal data uit POST request
-
-  // Nodemailer opties
-  const mailOptions = {
-    from: `"${name}" <${process.env.GMAIL_USER}>`,
-    replyTo: email,
-    to: process.env.GMAIL_USER,
+  // Bouw het bericht
+  const msg = {
+    to: process.env.SENDGRID_TO || process.env.SENDGRID_FROM, // ontvangend e-mail
+    from: process.env.SENDGRID_FROM, // geverifieerde sender bij SendGrid
+    replyTo: email,                  // reply gaat naar de gebruiker die het formulier invult
     subject: `Nieuw bericht van ${name}`,
-    text: `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`
+    text: `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`,
   };
 
-  // Mail verzenden
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send("Error sending email");
-    } else {
-      console.log("Email sent: " + info.response);
-      res.status(200).send("Email sent successfully");
-    }
-  });
+  try {
+    await sgMail.send(msg);
+    console.log("Email sent via SendGrid ✅");
+    res.status(200).send("Email sent successfully");
+  } catch (error) {
+    console.error(error);
+    if (error.response) console.error(error.response.body);
+    res.status(500).send("Error sending email");
+  }
 });
 
-// Server maken
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
