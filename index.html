@@ -447,7 +447,7 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
       body: JSON.stringify({ name, email, message: `${subject}\n\n${message}` }),
     });
 
-    if (response.ok) {
+    if (response.status==202) {
       status.textContent = "✅ Message succesfully sent!";
       status.style.color = "lightgreen";
       status.style.position = "absolute";
@@ -482,3 +482,4 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
 <script src="script.js"></script>
 </body>
 </html>
+
