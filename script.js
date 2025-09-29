@@ -373,7 +373,6 @@ gsap.to('.or-sub', {
     scroller: '.scroll-container',
     start: '-160% 70%',
     end: '-90% 90%',
-    markers: true,
     toggleActions: 'play none none reverse'
   }
  
@@ -388,7 +387,6 @@ gsap.to('.que-sub', {
     scroller: '.scroll-container',
     start: '-200% 70%',
     end: '-90% 60%',
-    markers: true,
     toggleActions: 'play none none reverse'
   }
 });
@@ -462,50 +460,24 @@ if (error) { // If any error exists
   }, 4000); 
 });
 
-// Sending data to backend
-const contactForm = document.getElementById("contactForm");
-const status = document.getElementById("status");
+// Footer button redirections if clicked
 
-// Functie om statusbericht te tonen en automatisch te verbergen
-function showStatus(message, color, duration) {
-  status.textContent = message;
-  status.style.color = color;
-  status.style.position = "absolute";
-
-  setTimeout(() => {
-    status.textContent = "";
-  }, duration);
-}
-
-// Event listener voor formulier
-contactForm.addEventListener("submit", async (e) => {
-  e.preventDefault(); // voorkom herladen pagina
-
-  const name = document.getElementById("name").value + " " + document.getElementById("lastname").value;
-  const email = document.getElementById("email").value;
-  const subject = document.getElementById("dropdown").value;
-  const message = document.getElementById("message").value;
-
-  try {
-    const response = await fetch("https://portfolio-zgun.onrender.com", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, message: `${subject}\n\n${message}` }),
-    });
-
-    if (response.ok) {
-      showStatus("✅ Message successfully sent!", "lightgreen", 3000);
-      contactForm.reset();
-    } else {
-      showStatus("❌ Something went wrong.", "red", 7000);
-    }
-  } catch (err) {
-    console.error(err);
-    showStatus("⚠️ Can't connect to server.", "red", 7000);
-  }
+document.getElementById('about-foot').addEventListener('click', () => {
+  const contactSection = document.querySelector('.hero-aboutme');
+  contactSection.scrollIntoView({ behavior: 'smooth' });
 });
 
+document.getElementById('project-foot').addEventListener('click', () => {
+  const projectTitle = document.querySelector('.hero-projects');
+  projectTitle.scrollIntoView({ behavior: 'smooth'});
+});
 
+document.getElementById('upcom-foot').addEventListener('click', () => {
+  const section = document.querySelector('.upcoming-title'); 
+  section.scrollIntoView({ behavior: 'smooth' });
+});
 
-
-
+document.getElementById('contact-foot').addEventListener('click', () => {
+  const section = document.querySelector('.contact-title'); 
+  section.scrollIntoView({ behavior: 'smooth' });
+});
