@@ -14,6 +14,21 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+
+// Nodemailer configuratie
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,       // Gmail
+    pass: process.env.GMAIL_PASS           // 16-cijferig App Password
+  },
+});
+
+transporter.verify((error, success) => {
+  if (error) console.log("SMTP fout:", error);
+  else console.log("SMTP server is ready ✅");
+});
+
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
@@ -51,4 +66,3 @@ app.post("/send", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
