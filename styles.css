@@ -1129,8 +1129,13 @@ footer {
   align-items: center;
   height: 150px;
  }
+
+  .about-foot, .project-foot, .upcom-foot, .contact-foot {
+    font-size: 0.9rem;
+  }
+  
  .foot-navbar {
-  width: 300px;
+  width: 320px;
   align-content: center;
  }
 
@@ -1159,4 +1164,5 @@ footer {
   }
 
 }
+
 
