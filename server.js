@@ -28,6 +28,8 @@ transporter.verify((error, success) => {
   else console.log("SMTP server is ready ✅");
 });
 
+app.use(express.static(__dirname));
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -60,4 +62,5 @@ app.post("/send", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
 
