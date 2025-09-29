@@ -3,6 +3,7 @@ require("dotenv").config();
 const path = require('path');
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const sgMail = require('@sendgrid/mail')
 
 const app = express(); // NU werkt het
 const PORT = process.env.PORT || 3000;
@@ -35,32 +36,30 @@ app.get('/', (req, res) => {
 });
 
 app.post("/send", (req, res) => {
+
   const { name, email, message } = req.body; // haal data uit POST request
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-  // Nodemailer opties
-  const mailOptions = {
-    from: `"${name}" <${process.env.GMAIL_USER}>`,
-    replyTo: email,
-    to: process.env.GMAIL_USER,
-    subject: `Nieuw bericht van ${name}`,
-    text: `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`
-  };
+const msg = {
+  to: process.env.GMAIL_USER, // Change to your recipient
+  from: `"${name}" <${process.env.GMAIL_USER}>`, // Change to your verified sender
+  subject: `Nieuw bericht van ${name}`,
+  text: `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`,
+  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+}
 
-  // Mail verzenden
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send("Error sending email");
-    } else {
-      console.log("Email sent: " + info.response);
-      res.status(200).send("Email sent successfully");
-    }
-  });
+sgMail
+  .send(msg)
+  .then((response) => {
+    console.log(response[0].statusCode)
+    console.log(response[0].headers)
+  })
+  .catch((error) => {
+    console.error(error)
+  })
 });
 
 // Server maken
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
-
