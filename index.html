@@ -150,17 +150,26 @@
               <path fill="#000000" d="M13.867875 16.737c-0.026875 -0.026875 0.026875 -0.053775 0 -0.053775 -0.1748 0 -0.41695 -0.1345 -0.551525 -0.322825 -0.57835 -0.8339 -1.425775 -1.38535 -2.9591 -1.345025 -2.300075 0.053775 -3.214725 -0.8877 -3.389525 -2.69005 -0.094175 -0.9819 -0.3632 -1.9369 -0.91465 -2.47495l-0.32285 0.2018c0.618675 0.538 0.820475 1.4123 0.955 2.6094 0.2152 1.80235 1.66785 2.6363 3.36265 2.663175 1.762 0.0269 2.39415 0.390075 3.0532 1.27785 0.2152 0.28245 0.45735 0.3766 0.645625 0.41695l0.121175 -0.28255Z" stroke-width="0.25"></path>
               <path fill="#000000" d="M20.10905 8.088375c0.04035 0.201725 0.147925 0.5918 0.363125 0.78005 0.094225 0.094175 0.10765 0.12105 0.02695 0.12105 -0.080775 0 -0.672575 -0.026875 -0.672575 -0.026875l-0.1614 -0.282425 0.4439 -0.5918Z" opacity=".4" stroke-width="0.25"></path>
             </svg>
-
         </div>
 
-
-<svg width="0" height="0" style="position:absolute">
-  <path id="circlePath" 
+  <!-- Paths for icons to rotate -->
+  <svg width="0" height="0" style="position:absolute">
+        <path id="circlePath" 
         d="M 0,-150 
            A 150,150 0 1,1 0,150 
            A 150,150 0 1,1 0,-150" 
         transform="translate(300,0)" />
+  </svg>
+
+  <svg width="150" height="150" viewBox="-75 -75 150 150" style="position:absolute">
+  <path id="circlePathSmall" 
+        d="M 0,-75 
+           A 75,75 0 1,1 0,75 
+           A 75,75 0 1,1 0,-75" 
+        fill="none"/>
 </svg>
+
+
   <div class="about-text">
       <h1 class="about">Hi, I’m
           <span id="A">A</span>
@@ -399,10 +408,10 @@
   <div class="message-box">
     <label for="message">Message <span>*</span></label>
     <textarea required id="message" placeholder="Tell me about your project or how I can help you..."></textarea>
-    <span style="font-size: 10px; max-width: 300px; color: white; font-family: sans-serif;">
-      💡 Tip: Write a meaningful message with at least 3 words and 10 characters. Avoid random characters or excessive repetition.
+    <span style="font-size: 12px; max-width: 300px; color: white; font-family: sans-serif;">
+      💡 Tip: Write a meaningful message....
     </span>
-    <div id="error" style="font-weight: bold; color: red; font-size: 12px; margin-top: 5px;"></div>
+    <div id="error"></div>
   </div>
 
   <div class="submit-but">
