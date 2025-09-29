@@ -45,7 +45,7 @@ body {
   position: fixed;
   top: 50%;          /* zet het element in het verticale midden */
   left: 20px;        /* een beetje van de rand af */
-  transform: translateY(-50%); /* corrigeert zodat het echt gecentreerd is */
+  transform: translateY(-50%) translateZ(0);; /* corrigeert zodat het echt gecentreerd is */
 
   width: 6px;        /* smal maken, want hij staat nu verticaal */
   height: 0;         /* start op 0 en groeit mee */
@@ -57,9 +57,7 @@ body {
   z-index: 9999;
   transition: height 0.1s linear;
   overflow: hidden;
-
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px); /* Safari */
+  will-change: height, transform;
 }
 
 .scroll-container {
@@ -71,19 +69,6 @@ body {
 
 .scroll-container::-webkit-scrollbar {
   display: none;             /* Chrome, Safari, Edge */
-}
-
-@media (max-width: 600px) {
-  .loading span {
-    font-size: 2rem;
-    letter-spacing: 3px;
-  }
-  .space {
-    margin: 10px;
-  }
-  #scroll-indicator {
-    left: 8px;
-  }
 }
 
 /* Hero animatie text */
@@ -147,7 +132,6 @@ body {
 }
 
 
-
 /* Particles animation background */
 
 .particles {
@@ -171,15 +155,18 @@ body {
   will-change: transform; 
 }
 
+
+
 /* About me section */
 
 .hero-aboutme {
   display: flex;
   justify-self: center;
-   justify-content: space-between;
+  justify-content: space-between;
   align-items: center;
   background-color: #000;
   z-index: 2;
+  gap: 200px;
   position: relative;     
   width: 1300px;
   height: 600px;
@@ -188,9 +175,10 @@ body {
   border-radius: 30px;
   border: #1DCD9F 2px solid;
   box-shadow: 0 0 20px #1DCD9F;
-  transform: translateX();
   opacity: 0;
 }
+
+
 
 
 
@@ -248,7 +236,6 @@ body {
   justify-items: center;
   grid-template-columns: repeat(2, 1fr); /* 2 kolommen */
   gap: 20px;
-  margin-left: 200px;
   scale: 1;
 }
 
@@ -265,7 +252,6 @@ body {
   font-size: 4.8rem;
   margin-top: 100px;
   height: 300px;
-  transform: translateY();
   opacity: 0;
 
   text-shadow: #fff 0 0 10px;
@@ -274,7 +260,6 @@ body {
 
 .project1 {
   opacity: 0;
-  transform: translateY();
   display: flex;
   justify-self: center;
   flex-direction: column;
@@ -357,7 +342,6 @@ body {
 
 .project2 {
   opacity: 0;
-  transform: translatey();
   display: flex;
   flex-direction: column;
   justify-self: center;
@@ -434,7 +418,6 @@ body {
 
 .project3 {
   opacity: 0;
-  transform: translateX();
   display: flex;
   flex-direction: column;
   column-count: 2;
@@ -543,17 +526,17 @@ body {
 
 /* Upcoming section */
 .upcoming-title {
-  display: flex;
-  justify-self: center;
-  align-self: center;
+  display: flex; /* flex child van parent */
+  justify-content: center; /* horizontaal centreren */
+  align-items: center;     /* verticaal centreren */
+  
   font-family: "Special Gothic Expanded One", sans-serif;
   font-size: 4.8rem;
   height: 300px;
   margin: 0;
-  transform: translateY();
   opacity: 0;
-
   text-shadow: #fff 0 0 10px;
+  text-align: center; /* voor meervoudige lijnen */
 }
 
 .upcoming-projects {
@@ -566,7 +549,6 @@ body {
 
 .projectup1 {
   opacity: 0;
-  transform: translateX();
   display: flex;
   justify-content: center;
   align-items: center;
@@ -598,7 +580,6 @@ body {
 
 .projectup2 {
   opacity: 0;
-  transform: translateY();
   display: flex;
   justify-content: center;
   align-items: center;
@@ -629,7 +610,6 @@ body {
 
 .projectup3 {
   opacity: 0;
-  transform: translateX();
   display: flex;
   justify-content: center;
   align-items: center;
@@ -674,8 +654,7 @@ body {
   border: #1DCD9F 2px solid;
   border-radius: 30px;
   box-shadow: 0 0 10px #1DCD9F;
-  transform: translateY();
-  opacity: 0.7;
+  opacity: 0;
   overflow-y: hidden;
 }
 
@@ -686,18 +665,9 @@ body {
   font-family: "Special Gothic Expanded One", sans-serif;
   font-size: 4.8rem;
   margin-top: 0px;
-  transform: translateY();
   opacity: 0;
 
   text-shadow: #fff 0 0 10px;
-}
-
-.main-text {
-  display: flex;
-  font-family: "Special Gothic Expanded One", sans-serif;
-  gap: 10px;
-  font-size: 3rem;
-  margin-top: 30px;
 }
 
 .contact-subtext {
@@ -857,6 +827,13 @@ label {
   transform: scale(1.05);
 }
 
+#error {
+  font-weight: bold;
+  color: red; 
+  font-size: 12px; 
+  margin-top: 5px;
+}
+
 
 /* Footer section */
 
@@ -891,12 +868,294 @@ footer {
 }
 
 /* Voor tablets en telefoons */
-@media (max-width: 412) {
+
+@media (max-width: 430px) {
+  /* Particle background shrinking */
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .hero {
+    height: 95%;
+  }
+
+  /* Interactive name */
   .actual-text,
-  .hover-text {
+  .hover-text,
+  .button {
   display: inline-block; /* hele tekstbreedte mee */
   white-space: nowrap;  
-  font-size: 1rem;
+  font-size: 2rem;
+  
   }
-}
+  .button {
+    -webkit-text-stroke: 0.55px white;
+  }
 
+  /* Loading screen for phone */
+  .loading span {
+    font-size: 2rem;
+    letter-spacing: 3px;
+  }
+  .space {
+    margin: 10px;
+  }
+  #scroll-indicator {
+    left: 8px;
+  }
+
+  /* About me */
+  .hero-aboutme {
+    display: flex;
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 100px;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    height: 200px;
+  }
+
+ .hero-icons {
+  display: none;
+ }
+ 
+  .hero-icons svg {
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .ico-java {
+    width: 20px;
+    height: 20px;
+  }
+
+  .about-text {
+    font-size: 0.8rem;
+    width: 300px;
+  }
+
+  .sub-about {
+    font-size: 0.8rem;
+    width: 300px;
+  }
+  .about {
+    font-size: 1rem;
+  }
+
+  /* Projects */
+  .hero-projects {
+    display: flex;
+    width: 390px;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .project-title {
+    font-size: 3.3rem;
+  }
+
+  .project1, .project2, .project3 {
+    margin: 0 auto;
+    width: 320px;
+  }
+
+ .project1 {
+  height: 390px;
+ }
+
+ .project2 {
+  height: 370px;
+ }
+
+ .project3 {
+    height: 450px;
+    margin-top: 60px;
+    
+ }
+
+ .project1 h1, .project2 h1, .project3 h1 {
+  margin-top: 10px;
+  font-size: 20px;
+ }
+
+ .project1 p, .project2 p, .project3 p {
+  font-size: 13px;
+ }
+
+ .project2 p, .project3 p {
+  width: 250px;
+ }
+
+ .live1-demo, .live2-demo, .live3-demo {
+   font-size: 15px;
+   width: 90px;
+ } 
+
+ .css1-stack, .css2-stack, .css3-stack {
+  width: 65px;
+ }
+
+ .html3-stack, .html2-stack, .html1-stack {
+  width: 68px;
+ }
+ 
+ .java3-stack {
+  width: 100px;
+ }
+
+ .tailwind3-stack {
+  font-size: 12px;
+  width: 120px;
+ }
+
+ /* Upcoming projects */
+ .upcoming-projects {
+  
+  display: flex;
+  flex-direction: column;
+ }
+
+ .hero-upcoming svg {
+  width: 25px;
+  height: 25px;
+
+ }
+
+ .upcoming-title {
+  margin-top: 130px;
+   font-size: 3rem;
+ }
+ 
+ .projectup1, .projectup2, .projectup3 {
+  margin: 0 auto;
+  width: 325px;
+  height: 200px;
+ }
+
+ .projectup3 {
+  margin-top: 50px;
+ }
+
+
+ .titup1, .titup2, .titup3 {
+  font-size: 1.8rem;
+ }
+
+ /* Contact form */
+ .hero-contact {
+  margin-top: 300px;
+  height: 600px;
+ }
+
+ .contact-main {
+  height: 630px;
+  width: 340px;
+  margin: 0 auto;
+ }
+
+ .contact-title {
+  font-size: 3.3rem;
+  margin: 0 auto;
+  width: 300px;
+ }
+
+
+ #name, #lastname, #email, #dropdown {
+  width: 115px;
+  height: 40px;
+ }
+
+ #email, #dropdown {
+  width: 240px;
+ }
+
+ .name1 {
+  gap: 10px;
+ }
+
+ .email-dropdown1 {
+  margin: 0 auto;
+ }
+ 
+ .message-box {
+  margin: 0 auto;
+  
+ }
+
+ #message {
+  height: 100px;
+  width: 238px;
+ }
+
+ #submit {
+  margin: 0 auto;
+  width: 238px;
+  font-size: 17px;
+  margin-bottom: 150px;
+ }
+  
+ .contact-subtext {
+  display: none;
+ }
+
+ ::placeholder {
+  font-size: 13px;
+ }
+
+ #error {
+  font-size: 10px;
+  max-width: 238px;
+ }
+
+ .hero-contact {
+  margin-top: 500px;
+ }
+
+ /* Footer  */
+ footer {
+  align-items: center;
+  height: 150px;
+ }
+ .foot-navbar {
+  width: 300px;
+  align-content: center;
+ }
+
+
+ /* Extra */
+
+ .hero-aboutme, .hero-projects, .hero-contact {
+    max-width: 100%;
+  }
+
+  .about-text, .sub-about {
+    width: 100%;      /* nooit breder dan parent */
+    max-width: 300px; /* behoud desktop look */
+  }
+
+  .hero-projects {
+    width: 100%;
+    max-width: 390px;
+    margin: 0 auto;
+  }
+
+  .contact-main {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+}
