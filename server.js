@@ -1,43 +1,61 @@
-require("dotenv").config();
 const express = require("express");
+require("dotenv").config();
 const cors = require("cors");
-const sgMail = require("@sendgrid/mail");
+const nodemailer = require("nodemailer");
 
-const app = express();
+const app = express(); // NU werkt het
 const PORT = process.env.PORT || 3000;
+
+
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Configure SendGrid
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-app.post("/send", async (req, res) => {
-  const { name, email, message } = req.body;
+// Nodemailer configuratie
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,       // Gmail
+    pass: process.env.GMAIL_PASS           // 16-cijferig App Password
+  },
+});
 
-  // Bouw het bericht
-  const msg = {
-    to: process.env.SENDGRID_TO || process.env.SENDGRID_FROM, // ontvangend e-mail
-    from: process.env.SENDGRID_FROM, // geverifieerde sender bij SendGrid
-    replyTo: email,                  // reply gaat naar de gebruiker die het formulier invult
+transporter.verify((error, success) => {
+  if (error) console.log("SMTP fout:", error);
+  else console.log("SMTP server is ready ✅");
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.post("/send", (req, res) => {
+  const { name, email, message } = req.body; // haal data uit POST request
+
+  // Nodemailer opties
+  const mailOptions = {
+    from: `"${name}" <${process.env.GMAIL_USER}>`,
+    replyTo: email,
+    to: process.env.GMAIL_USER,
     subject: `Nieuw bericht van ${name}`,
-    text: `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`,
+    text: `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`
   };
 
-  try {
-    await sgMail.send(msg);
-    console.log("Email sent via SendGrid ✅");
-    res.status(200).send("Email sent successfully");
-  } catch (error) {
-    console.error(error);
-    if (error.response) console.error(error.response.body);
-    res.status(500).send("Error sending email");
-  }
+  // Mail verzenden
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send("Error sending email");
+    } else {
+      console.log("Email sent: " + info.response);
+      res.status(200).send("Email sent successfully");
+    }
+  });
 });
 
-// Start server
+// Server maken
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
-
