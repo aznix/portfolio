@@ -36,28 +36,31 @@ app.get('/', (req, res) => {
 });
 
 app.post("/send", (req, res) => {
-
   const { name, email, message } = req.body; // haal data uit POST request
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const msg = {
-  to: process.env.GMAIL_USER, // Change to your recipient
-  from: `"${name}" <${process.env.GMAIL_USER}>`, // Change to your verified sender
-  subject: `Nieuw bericht van ${name}`,
-  text: `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`,
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-}
+  const msg = {
+    to: process.env.GMAIL_USER, // Ontvanger
+    from: `"${name}" <${process.env.GMAIL_USER}>`, // Afzender (moet een geverifieerd adres zijn bij SendGrid)
+    subject: `Nieuw bericht van ${name}`,
+    text: `Naam: ${name}\nEmail: ${email}\n\nBericht:\n${message}`,
+    html: `<strong>Naam:</strong> ${name}<br>
+           <strong>Email:</strong> ${email}<br><br>
+           <strong>Bericht:</strong><br>${message.replace(/\n/g, "<br>")}`,
+  };
 
-sgMail
-  .send(msg)
-  .then((response) => {
-    console.log(response[0].statusCode)
-    console.log(response[0].headers)
-  })
-  .catch((error) => {
-    console.error(error)
-  })
+  sgMail
+    .send(msg)
+    .then((response) => {
+      console.log("✅ Email verzonden:", response[0].statusCode);
+      res.status(202).json({ success: true, message: "Bericht succesvol verzonden!" });
+    })
+    .catch((error) => {
+      console.error("❌ Fout bij versturen:", error);
+      res.status(500).json({ success: false, message: "Er is iets misgegaan bij het versturen." });
+    });
 });
+
 
 // Server maken
 app.listen(PORT, () => {
