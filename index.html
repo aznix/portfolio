@@ -469,11 +469,13 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
     } else {
       status.textContent = "❌ Something went wrong.";
       status.style.color = "red";
+      status.style.position = "absolute";
     }
     } catch (err) {
     console.error(err);
     status.textContent = "⚠️ Can't connect to server.";
     status.style.color = "red";
+    status.style.position = "absolute";
     }
 });
 </script>
@@ -491,4 +493,5 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
 <script src="script.js"></script>
 </body>
 </html>
+
 
