@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const path = require('path');
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 
@@ -59,3 +60,4 @@ app.post("/send", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
