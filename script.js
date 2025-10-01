@@ -2,7 +2,7 @@
 const letters = document.querySelectorAll(".loading span");
 gsap.to(".loading span", {
   color: "white",
-  duration: 0.8,
+  duration: 0.5,
   textShadow: '0 0 20px white',
   yoyo: true,       
   stagger: 0.15,
@@ -11,11 +11,9 @@ gsap.to(".loading span", {
     gsap.to(".loading", {
       opacity: 0,
       duration: 1,
-      delay: 1.5,
+      delay: 0.5,
       onComplete: () => {
         document.querySelector(".loading").style.display = "none";
-        document.querySelector(".scroll-container").style.overflowY = "scroll"; 
-        document.querySelector(".scroll-container").scrollTo(0, 0);
       }
     });
   }
