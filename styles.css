@@ -13,7 +13,6 @@
 body {
   background-color: #000;
   color: #fff;
-  overflow: hidden; /* body mag NIET scrollen */
 }
 
 /* Loading screen */
@@ -25,6 +24,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  pointer-events: none;
 
 }
 .loading span {
@@ -1129,11 +1129,9 @@ footer {
   align-items: center;
   height: 150px;
  }
-
   .about-foot, .project-foot, .upcom-foot, .contact-foot {
     font-size: 0.9rem;
   }
-  
  .foot-navbar {
   width: 360px;
   align-content: center;
@@ -1164,6 +1162,3 @@ footer {
   }
 
 }
-
-
-
