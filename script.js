@@ -317,7 +317,7 @@ mm.add("(max-width: 430px)", () => {
     scrollTrigger: {
       trigger: skillsTitle,
       scroller: '.scroll-container',
-      start: '-505% 50%',
+      start: '-405% 50%',
       end: '-30% 50%',
       toggleActions: "play none none reverse"
     }
@@ -351,7 +351,6 @@ mm.add("(max-width: 430px)", () => {
       scroller: '.scroll-container',
       start: '-35% 50%',
       end: '10% 50%',
-      markers: true,
       toggleActions: "play none none reverse"
     }
   })
